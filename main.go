@@ -77,7 +77,7 @@ func getPassword() []byte {
 
 	fmt.Print("Enter password")
 	password, _ := term.ReadPassword(0)
-	fmt.Print("Confirm password: ")
+	fmt.Print("\nConfirm password: ")
 	password2, _ := term.ReadPassword(0)
 	if !validatePassword(password, password2) {
 		fmt.Println("\nPasswords do not match. Please try again.")
