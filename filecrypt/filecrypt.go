@@ -8,6 +8,8 @@ import (
 	"encoding/hex"
 	"io"
 	"os"
+
+	"golang.org/x/crypto/pbkdf2"
 )
 
 func Encrypt(source string, password []byte) {
@@ -47,7 +49,7 @@ func Encrypt(source string, password []byte) {
 	}
 
 	ciphertext := aesgcm.Seal(nil, nonce, plaintext, nil)
-	ciphertext := append(ciphertext, nonce...)
+	ciphertext = append(ciphertext, nonce...)
 
 	dstFile, err := os.Create(source)
 	if err != nil {
@@ -83,7 +85,7 @@ func Decrypt(source string, password []byte) {
 	str := hex.EncodeToString(salt)
 	nonce, err := hex.DecodeString(str)
 
-	dk := pbkdf2.Ley(name, nonce, 4096, 32, sha1.New, key)
+	dk := pbkdf2.Key(key, nonce, 4096, 32, sha1.New)
 
 	block, err := aes.NewCipher(dk)
 	if err != nil {

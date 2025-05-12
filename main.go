@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/Dudi06/filecrypt"
-	"golang.org/x/crypto"
+	"golang.org/x/term"
 	"os"
 )
 
@@ -53,7 +53,7 @@ func encryptHandle() {
 	}
 	password := getPassword()
 	fmt.Println("\nEncrypting...")
-	filecrypt.EncryptFile(file, password)
+	filecrypt.Encrypt(file, password)
 	fmt.Println("\n file sucessfully encrypted!")
 }
 
@@ -61,6 +61,10 @@ func decryptHandle() {
 	if len(os.Args) < 3 {
 		fmt.Println("missing path to the file. For more info, run go run . help")
 		os.Exit(0)
+	}
+	file := os.Args[2]
+	if !validateFile(file) {
+		panic("File not found")
 	}
 	fmt.Print("Enter password:")
 	password, _ := term.readPassword(0)
